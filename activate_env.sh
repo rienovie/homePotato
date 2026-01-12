@@ -10,7 +10,7 @@ if [ -d ".venv" ]; then
 	echo "Virtual environment activated"
 else
 	echo "Did not find .venv directory, creating virtual environment"
-	python -m venv .venv
+	python3.11 -m venv .venv
 	source .venv/bin/activate
 	echo "Virtual environment created and activated"
 	echo "Installing dependencies"
