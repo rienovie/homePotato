@@ -11,11 +11,16 @@ import sys
 import sounddevice as sd
 
 import handle_instruction as handle
+import voice
 
 from vosk import Model, KaldiRecognizer, json
 
 q = queue.Queue()
 keyword = "potato"
+
+# NOTE: set voice here
+global Voice_service
+Voice_service = voice.TTSService("resources/piper-voices/en_US-libritts_r-medium.onnx")
 
 def int_or_str(text):
     """Helper function for argument parsing."""
@@ -78,6 +83,18 @@ try:
 
         rec = KaldiRecognizer(model, args.samplerate)
         active = False
+
+        Voice_service.start()
+
+        Voice_service.set_config(
+            speaker_id=0,
+            length_scale=1.0,
+            noise_scale=0.667,
+            noise_w_scale=0.8,
+            normalize_audio=True,
+            volume=1.0
+        )
+
         while True:
             data = q.get()
             if rec.AcceptWaveform(data):
@@ -106,8 +123,10 @@ try:
 
 
 except KeyboardInterrupt:
+    Voice_service.stop()
     print("\nDone")
     parser.exit(0)
 except Exception as e:
+    Voice_service.stop()
     parser.exit(1)
 

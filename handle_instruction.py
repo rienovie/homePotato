@@ -1,4 +1,5 @@
 
+from run import Voice_service
 
 def handle_instruction(instruction):
 
@@ -7,6 +8,7 @@ def handle_instruction(instruction):
         print("Cancelling")
         return
     if instruction.__contains__("weather"):
+        Voice_service.speak("You have said weather")
         print("weather / unhandled")
     elif instruction.__contains__("play"):
         print("playing / unhandled")
