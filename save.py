@@ -5,11 +5,11 @@ import json
 import voice
 
 def save_voice_options():
-    with open("voice_options.json", "w") as f:
+    with open("resources/local/voice_options.json", "w") as f:
         json.dump(voice.config.__dict__, f)
 
 def load_voice_options():
-    with open("voice_options.json", "r") as f:
+    with open("resources/local/voice_options.json", "r") as f:
         options = json.load(f)
     apply_voice_options(options)
 

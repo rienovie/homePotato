@@ -2,7 +2,7 @@
 import pyaudio
 from piper import PiperVoice, SynthesisConfig
 
-voice = PiperVoice.load("resources/piper-voices/en_US-libritts_r-medium.onnx")
+voice = PiperVoice.load("resources/local/piper-voices/en_US-libritts_r-medium.onnx")
 config = SynthesisConfig()
 
 def set_config_values(**kwargs):

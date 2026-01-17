@@ -14,7 +14,7 @@ Current TODO List:
         [x] Keyword detection
         [x] Instruction sending
     [ ] Simplify script to minimum necessary (run.py)
-    [ ] Time of day
+    [x] Time of day
     [ ] Weather
     [ ] Spotify ("Full functionality of Spotify")
     [ ] YouTube ("Play a video", NOT big priority)
@@ -22,6 +22,8 @@ Current TODO List:
     [ ] Alarm
     [ ] Search (General Questions)
     [ ] Configuration (Volume, Brightness, Voice, etc.)
+    [ ] Voice Options (Volume, Speed, Speaker_ID, etc.)
+        [ ] Prefered Voices Script (interact with the prefered voices list from voice alone)
 [ ] Screen
     [ ] Widget System (Currently thinking something like quickshell or maybe a godot application)
         [ ] Clock
@@ -44,3 +46,9 @@ Current TODO List:
         [ ] Piper Voices
         [ ] Custom Images (Wallpapers, icons, etc.)
     [x] Python Environment
+    [ ] Prefered Voices
+        [ ] Bash script to determine which voices are preferred
+            [ ] Play each voice and have user input (yes/no/pass)
+            [ ] Be able to return to script later and modify
+            [ ] Be able to have multiple lists
+            [ ] Random voice option will pick a number from the prefered list if it exists

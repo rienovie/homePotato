@@ -1,0 +1,3 @@
+Local directory is for files that will be handled by the end user
+
+Public directory are files that will be included with the git repo

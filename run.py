@@ -9,6 +9,7 @@ import os
 import queue
 import sys
 import sounddevice as sd
+import simpleaudio as sa
 
 import handle_instruction as handle
 import save
@@ -18,6 +19,9 @@ from vosk import Model, KaldiRecognizer, json
 
 q = queue.Queue()
 keyword = "potato"
+
+wakeWav=sa.WaveObject.from_wave_file("resources/public/sounds/wake.wav")
+endWav=sa.WaveObject.from_wave_file("resources/public/sounds/end.wav")
 
 def int_or_str(text):
     """Helper function for argument parsing."""
@@ -63,7 +67,8 @@ try:
         args.samplerate = int(device_info["default_samplerate"])
 
     if args.model is None:
-        model = Model(lang="en-us")
+        # NOTE: put your model here
+        model = Model("resources/local/vosk-models/vosk-model-small-en-us-0.15")
     else:
         model = Model(lang=args.model)
 
@@ -100,23 +105,26 @@ try:
                 final = json.loads(rec.FinalResult()).get("text", "")
 
                 if active:
+                    endWav.play()
+                    active = False
+
                     # the first index is everything after the first keyword uesed
                     sFinal = str.split(final,keyword,1)[1]
 
                     handle.handle_instruction(sFinal)
 
-                    active = False
 
             # NOTE: 20 is the length when no value is there, instead of running json.loads every check this works
             # the result is a string in json so that's why the formatting is weird
             elif rec.PartialResult().__len__() > 20:
+
                 # NOTE: Partial result is not cleared until complete result is received
                 parRes = json.loads(rec.PartialResult()).get("partial", "")
 
                 if not active and parRes.__contains__(keyword):
                     active = True
-                    # TODO: I want to use a sound effect instead of yes
-                    # voice.speak("Yes?")
+                    wakeWav.play()
+
             if dump_fn is not None:
                 dump_fn.write(data)
 
