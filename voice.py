@@ -5,12 +5,14 @@ from piper import PiperVoice, SynthesisConfig
 voice = PiperVoice.load("resources/local/piper-voices/en_US-libritts_r-medium.onnx")
 config = SynthesisConfig()
 
+
 def set_config_values(**kwargs):
     for k, v in kwargs.items():
         if hasattr(config, k):
             setattr(config, k, v)
         else:
             print(f"Config key {k} not found")
+
 
 def speak(text):
     # Get first chunk so we know sample format
@@ -37,4 +39,3 @@ def speak(text):
     stream.stop_stream()
     stream.close()
     p.terminate()
-

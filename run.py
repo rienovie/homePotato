@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 
-# prerequisites: as described in https://alphacephei.com/vosk/install and also python module `sounddevice` (simply run command `pip install sounddevice`)
-# Example usage using Dutch (nl) recognition model: `python test_microphone.py -m nl`
-# For more help run: `python test_microphone.py -h`
-
 import argparse
 import os
 import queue
@@ -20,8 +16,9 @@ from vosk import Model, KaldiRecognizer, json
 q = queue.Queue()
 keyword = "potato"
 
-wakeWav=sa.WaveObject.from_wave_file("resources/public/sounds/wake.wav")
-endWav=sa.WaveObject.from_wave_file("resources/public/sounds/end.wav")
+wakeWav = sa.WaveObject.from_wave_file("resources/public/sounds/wake.wav")
+endWav = sa.WaveObject.from_wave_file("resources/public/sounds/end.wav")
+
 
 def int_or_str(text):
     """Helper function for argument parsing."""
@@ -30,11 +27,13 @@ def int_or_str(text):
     except ValueError:
         return text
 
+
 def callback(indata, frames, time, status):
     """This is called (from a separate thread) for each audio block."""
     if status:
         print(status, file=sys.stderr)
     q.put(bytes(indata))
+
 
 parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument(
@@ -68,7 +67,8 @@ try:
 
     if args.model is None:
         # NOTE: put your model here
-        model = Model("resources/local/vosk-models/vosk-model-small-en-us-0.15")
+        model = Model(
+            "resources/local/vosk-models/vosk-model-small-en-us-0.15")
     else:
         model = Model(lang=args.model)
 
@@ -77,8 +77,14 @@ try:
     else:
         dump_fn = None
 
-    with sd.RawInputStream(samplerate=args.samplerate, blocksize = 8000, device=args.device,
-            dtype="int16", channels=1, callback=callback):
+    with sd.RawInputStream(
+            samplerate=args.samplerate,
+            blocksize=8000,
+            device=args.device,
+            dtype="int16",
+            channels=1,
+            callback=callback
+    ):
         print("#" * 80)
         print("Press Ctrl+C to stop the recording")
         print("#" * 80)
@@ -99,6 +105,9 @@ try:
         else:
             save.load_voice_options()
 
+        # TODO: make sure this doesn't set off it's self
+        voice.speak("Welcome to homePotato")
+
         while True:
             data = q.get()
             if rec.AcceptWaveform(data):
@@ -109,10 +118,9 @@ try:
                     active = False
 
                     # the first index is everything after the first keyword uesed
-                    sFinal = str.split(final,keyword,1)[1]
+                    sFinal = str.split(final, keyword, 1)[1]
 
                     handle.handle_instruction(sFinal)
-
 
             # NOTE: 20 is the length when no value is there, instead of running json.loads every check this works
             # the result is a string in json so that's why the formatting is weird
@@ -130,8 +138,9 @@ try:
 
 
 except KeyboardInterrupt:
+    voice.speak("Goodbye")
     print("\nDone")
     parser.exit(0)
-except Exception as e:
+except Exception:
+    voice.speak("Oops, I have crashed")
     parser.exit(1)
-
