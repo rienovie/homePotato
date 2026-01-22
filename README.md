@@ -13,6 +13,11 @@ Current TODO List:
     [ ] Normalize volume
         After not interacting with it for 30 min change volume to a default volume so it's not really loud or quiet on first interaction
 
+[ ] Threads
+    [ ] Speperate thread for weather/cache
+    [ ] Thread for timers
+    [ ] Thread for music
+
 [ ] Voice interaction
     [x] Basic voice interaction
         [x] Keyword detection
