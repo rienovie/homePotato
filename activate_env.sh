@@ -15,4 +15,5 @@ else
 	echo "Virtual environment created and activated"
 	echo "Installing dependencies"
 	pip install -r requirements.txt
+	echo "Environment setup complete"
 fi

@@ -6,6 +6,7 @@ import save
 
 import weather
 
+global Working, City
 Working = False
 
 # NOTE: put your city here
@@ -16,7 +17,7 @@ City = "Philadelphia"
 
 def handle_instruction(instruction):
 
-    global Working
+    global Working, City
     if Working or instruction.__len__() == 0:
         return
 
