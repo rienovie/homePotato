@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source common.sh
+
 submenu_download_piper() {
     while true; do
         choice=$(auto_menu "homePotato - Downloads - Piper" "Choose an Option:" \
@@ -16,19 +18,23 @@ submenu_download_piper() {
                 ;;
             "List")
                 mkdir -p resources/local/piper-voices
-                slow_print "Listing available voices"
+                slow_print "Getting list of available voices"
 
                 menu_items=()
                 voices=$(python -m piper.download_voices)
+                if [ -z "$voices" ]; then
+                    confirm_print "Error while getting list of voices"
+                    return 1
+                fi
                 while IFS= read -r voice; do
-                    menu_items+=("$voice" " ")
+                    menu_items+=("$voice" "")
                 done <<< "$voices"
 
                 selected_voice=$(auto_menu "homePotato - Downloads - Piper - List" \
                     "Choose a voice:" \
-                    "Back" "Back to Previous Menu" \
+                    "Back" "" \
                     "${menu_items[@]}" \
-                    "Back" "Back to Previous Menu")
+                    "Back" "")
 
                 if [ -z "$selected_voice" ] || [ "$selected_voice" = "Back" ]; then
                     continue

@@ -2,17 +2,24 @@
 # for saving/loading options to a file
 
 import json
+import os
+
 import voice
 import weather
 
+saveLocation = "resources/local/config"
+
+if not os.path.exists(saveLocation):
+    os.makedirs(saveLocation)
+
 
 def save_voice_options():
-    with open("resources/local/voice_options.json", "w") as f:
+    with open(f"{saveLocation}/voice_options.json", "w") as f:
         json.dump(voice.config.__dict__, f)
 
 
 def load_voice_options():
-    with open("resources/local/voice_options.json", "r") as f:
+    with open(f"{saveLocation}/voice_options.json", "r") as f:
         options = json.load(f)
     apply_voice_options(options)
 
@@ -26,12 +33,12 @@ def apply_voice_options(options):
 
 
 def save_weather_cache():
-    with open("resources/local/weather_options.json", "w") as f:
-        json.dump(weather.weatherCache.__dict__, f)
+    with open(f"{saveLocation}/weather_cache.json", "w") as f:
+        json.dump(weather.weatherCache, f)
 
 
 def load_weather_cache():
-    with open("resources/local/weather_options.json", "r") as f:
+    with open(f"{saveLocation}/weather_cache.json", "r") as f:
         options = json.load(f)
     apply_weather_cache(options)
 

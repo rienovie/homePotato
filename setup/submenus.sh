@@ -28,8 +28,9 @@ submenu_download() {
 submenu_options() {
     while true; do
         choice=$(auto_menu "homePotato - Options" "Choose an option:" \
-            "Vosk" "Vosk Options (Speech to Text)" \
-            "Piper" "Piper Options (Text to Speech)" \
+            "Vosk" "(Speech to Text)" \
+            "Piper" "(Text to Speech)" \
+            "Weather" "Weather Options" \
             "Back" "Back to main menu")
 
         case $choice in
@@ -37,6 +38,9 @@ submenu_options() {
                 confirm_print "Not implemented yet"
                 ;;
             "Piper")
+                confirm_print "Not implemented yet"
+                ;;
+            "Weather")
                 confirm_print "Not implemented yet"
                 ;;
             "Back" | "")

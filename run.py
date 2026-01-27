@@ -10,6 +10,7 @@ import simpleaudio as sa
 import handle_instruction as handle
 import save
 import voice
+import weather
 
 from vosk import Model, KaldiRecognizer, json
 
@@ -33,6 +34,30 @@ def callback(indata, frames, time, status):
     if status:
         print(status, file=sys.stderr)
     q.put(bytes(indata))
+
+
+def loadUserOptions():
+    print("Loading user options")
+
+    if not os.path.exists(f"{save.saveLocation}/voice_options.json"):
+        # default voice options
+        voice.set_config_values(
+            speaker_id=2,
+            length_scale=1.0,
+            noise_scale=0.667,
+            noise_w_scale=0.8,
+            normalize_audio=True,
+            volume=1.0
+        )
+        save.save_voice_options()
+    else:
+        save.load_voice_options()
+
+    if not os.path.exists(f"{save.saveLocation}/weather_cache.json"):
+        weather.load_weather()
+        save.save_weather_cache()
+    else:
+        save.load_weather_cache()
 
 
 parser = argparse.ArgumentParser(add_help=False)
@@ -60,6 +85,8 @@ parser.add_argument(
 args = parser.parse_args(remaining)
 
 try:
+    loadUserOptions()
+
     if args.samplerate is None:
         device_info = sd.query_devices(args.device, "input")
         # soundfile expects an int, sounddevice provides a float:
@@ -92,18 +119,7 @@ try:
         rec = KaldiRecognizer(model, args.samplerate)
         active = False
 
-        if not os.path.exists("voice_options.json"):
-            voice.set_config_values(
-                speaker_id=2,
-                length_scale=1.0,
-                noise_scale=0.667,
-                noise_w_scale=0.8,
-                normalize_audio=True,
-                volume=1.0
-            )
-            save.save_voice_options()
-        else:
-            save.load_voice_options()
+        loadUserOptions()
 
         # TODO: make sure this doesn't set off it's self
         voice.speak("Welcome to homePotato")
