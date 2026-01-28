@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+from logging import error
 import os
 import queue
 import sys
@@ -157,6 +158,7 @@ except KeyboardInterrupt:
     voice.speak("Goodbye")
     print("\nDone")
     parser.exit(0)
-except Exception:
+except Exception as e:
     voice.speak("Oops, I have crashed")
+    error(e)
     parser.exit(1)

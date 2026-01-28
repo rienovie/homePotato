@@ -34,7 +34,12 @@ def apply_voice_options(options):
 
 def save_weather_cache():
     with open(f"{saveLocation}/weather_cache.json", "w") as f:
-        json.dump(weather.weatherCache, f)
+        jObj = {
+            "location": weather.weatherCache["location"],
+            "last_updated": weather.weatherCache["last_updated"].ctime(),
+            "forecast": weather.weatherCache["forecast"]
+        }
+        json.dump(jObj, f)
 
 
 def load_weather_cache():
