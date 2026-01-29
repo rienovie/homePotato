@@ -9,10 +9,38 @@ import save
 global location, weatherCache
 location: str = "Philadelphia"  # Default location
 
-weatherCache = {
-    "location": location,
+
+class fc_json:
+    def __init__(self, forCas):
+        self.data["description"] = forCas.description
+        self.data["temperature"] = forCas.temperature
+        self.data["feels_like"] = forCas.feels_like
+        self.data["daily_forecasts"] = []
+        for d in forCas.daily_forecasts:
+            self.data["daily_forecasts"].append({
+                "date": datetime.datetime.strftime(d.date, "%Y.%m.%d"),
+                "highest_temperature": d.highest_temperature,
+                "lowest_temperature": d.lowest_temperature
+            })
+
+    data = {
+        "description": str,
+        "temperature": int,
+        "feels_like": int,
+        "daily_forecasts": [
+            {
+                "date": str,
+                "highest_temperature": int,
+                "lowest_temperature": int
+            }
+        ],
+    }
+
+
+weatherCache: dict = {
+    "location": str,
     "last_updated": datetime.datetime,
-    "forecast": None
+    "forecast": fc_json.data
 }
 
 
@@ -25,7 +53,7 @@ def load_weather():
         fore = get_weather_sync(location)
         weatherCache["location"] = fore.location
         weatherCache["last_updated"] = datetime.datetime.now()
-        weatherCache["forecast"] = fore
+        weatherCache["forecast"] = fc_json(fore).data
         save.save_weather_cache()
 
     save.load_weather_cache()
@@ -39,7 +67,7 @@ def get_weather_cache(_location):
         fore = get_weather_sync(location)
         weatherCache["location"] = fore.location
         weatherCache["last_updated"] = datetime.datetime.now()
-        weatherCache["forecast"] = fore
+        weatherCache["forecast"] = fc_json(fore).data
         save.save_weather_cache()
     return weatherCache
 

@@ -3,6 +3,7 @@
 
 import json
 import os
+import datetime
 
 import voice
 import weather
@@ -36,7 +37,7 @@ def save_weather_cache():
     with open(f"{saveLocation}/weather_cache.json", "w") as f:
         jObj = {
             "location": weather.weatherCache["location"],
-            "last_updated": weather.weatherCache["last_updated"].ctime(),
+            "last_updated": datetime.datetime.strftime(weather.weatherCache["last_updated"], "%Y.%m.%d.%H.%M.%S"),
             "forecast": weather.weatherCache["forecast"]
         }
         json.dump(jObj, f)
@@ -50,7 +51,7 @@ def load_weather_cache():
 
 def apply_weather_cache(options):
     for k, v in options.items():
-        if hasattr(weather.weatherCache, k):
+        if hasattr(weather.weatherCache.__dict__, k):
             setattr(weather.weatherCache, k, v)
         else:
             print(f"Weather cache key {k} not found")
