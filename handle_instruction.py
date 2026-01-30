@@ -39,12 +39,13 @@ def handle_instruction(instruction):
     elif instruction.__contains__("weather"):
         voice.speak("Getting the weather")
 
-        w = weather.get_weather_sync(City)
+        w = weather.get_weather_cache(City)["forecast"]
 
+        # BUG: fix this
         response = (
-            f"In {City} it is currently {w.description} at {w.temperature} degrees. "
-            f"Today will have a high of {w.daily_forecasts[0].highest_temperature} "
-            f"and a low of {w.daily_forecasts[0].lowest_temperature}"
+            f"In {City} it is currently {w['description']} at {w['temperature']} degrees. "
+            f"Today will have a high of {w['daily_forecasts'][0].highest_temperature} "
+            f"and a low of {w['daily_forecasts'][0].lowest_temperature}"
         )
 
         voice.speak(response)

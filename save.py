@@ -10,6 +10,8 @@ import weather
 
 saveLocation = "resources/local/config"
 
+global weatherCache
+
 if not os.path.exists(saveLocation):
     os.makedirs(saveLocation)
 
@@ -51,7 +53,7 @@ def load_weather_cache():
 
 def apply_weather_cache(options):
     for k, v in options.items():
-        if hasattr(weather.weatherCache.__dict__, k):
-            setattr(weather.weatherCache, k, v)
+        if k in weather.weatherCache:
+            weather.weatherCache[k] = v
         else:
             print(f"Weather cache key {k} not found")
