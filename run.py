@@ -37,6 +37,9 @@ def callback(indata, frames, time, status):
     q.put(bytes(indata))
 
 
+# TODO: right now this is called twice, spilt into two functions
+# one for early loading and one for after insitalization loading
+# the voice options should be loaded after initialization of the voice
 def loadUserOptions():
     print("Loading user options")
 

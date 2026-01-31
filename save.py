@@ -39,10 +39,11 @@ def save_weather_cache():
     with open(f"{saveLocation}/weather_cache.json", "w") as f:
         jObj = {
             "location": weather.weatherCache["location"],
-            "last_updated": datetime.datetime.strftime(weather.weatherCache["last_updated"], "%Y.%m.%d.%H.%M.%S"),
+            "last_updated": weather.weatherCache["last_updated"].strftime("%Y.%m.%d.%H.%M.%S"),
             "forecast": weather.weatherCache["forecast"]
         }
         json.dump(jObj, f)
+    print("Saved weather cache")
 
 
 def load_weather_cache():
@@ -54,6 +55,10 @@ def load_weather_cache():
 def apply_weather_cache(options):
     for k, v in options.items():
         if k in weather.weatherCache:
-            weather.weatherCache[k] = v
+            if k == "last_updated":
+                weather.weatherCache[k] = datetime.datetime.strptime(v, "%Y.%m.%d.%H.%M.%S")
+            else:
+                weather.weatherCache[k] = v
         else:
             print(f"Weather cache key {k} not found")
+    print("Loaded weather cache")
