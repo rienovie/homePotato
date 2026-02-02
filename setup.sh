@@ -25,6 +25,7 @@ while true; do
 
     choice=$(auto_menu "HomePotato - Main Setup" "$message" \
         "Update" "Update homePotato from git repo" \
+        "Flash OS" "Flash OS to microSD" \
         "Download" "Download voices, models, and other resources" \
         "Options" "Configure homePotato" \
         "Exit" "Exit homePotato setup")
@@ -44,6 +45,9 @@ while true; do
             else
                 confirm_print "HomePotato updated."
             fi
+            ;;
+        "Flash OS")
+            submenu_flash_os
             ;;
         "Download")
             submenu_download

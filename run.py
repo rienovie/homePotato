@@ -5,8 +5,10 @@ from logging import error
 import os
 import queue
 import sys
+import time
 import sounddevice as sd
 import simpleaudio as sa
+import threading
 
 import handle_instruction as handle
 import save
@@ -21,6 +23,10 @@ keyword = "potato"
 wakeWav = sa.WaveObject.from_wave_file("resources/public/sounds/wake.wav")
 endWav = sa.WaveObject.from_wave_file("resources/public/sounds/end.wav")
 
+global end_threads, current_threads
+end_threads = False
+current_threads = []
+
 
 def int_or_str(text):
     """Helper function for argument parsing."""
@@ -28,6 +34,19 @@ def int_or_str(text):
         return int(text)
     except ValueError:
         return text
+
+
+def long_tick_thread():
+    # This is a long tick thread that will run every x seconds
+    # TODO: the goal would be to have the value here be modifable by the user
+    tickLength = 30
+    print("Starting long tick thread")
+
+    # NOTE: this is to make sure thread ends cleanly when program ends
+    while not end_threads:
+        weather.check_weather()
+        # default to 30 minutes
+        time.sleep(tickLength)
 
 
 def callback(indata, frames, time, status):
@@ -128,6 +147,10 @@ try:
         # TODO: make sure this doesn't set off it's self
         voice.speak("Welcome to homePotato")
 
+        t_long_tick = threading.Thread(target=long_tick_thread, daemon=True)
+        t_long_tick.start()
+        current_threads.append(t_long_tick)
+
         while True:
             data = q.get()
             if rec.AcceptWaveform(data):
@@ -159,9 +182,24 @@ try:
 
 except KeyboardInterrupt:
     voice.speak("Goodbye")
+
+    end_threads = True
+    print("Waiting for threads to end")
+    for t in current_threads:
+        t.join()
+
     print("\nDone")
+
     parser.exit(0)
+
 except Exception as e:
     voice.speak("Oops, I have crashed")
+
+    end_threads = True
+    print("Waiting for threads to end")
+    for t in current_threads:
+        t.join()
+
     error(e)
+
     parser.exit(1)

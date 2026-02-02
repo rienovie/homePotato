@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source common.sh
+source setup/common.sh
 
 submenu_download_piper() {
     while true; do

@@ -48,6 +48,16 @@ auto_menu() {
         "${@:3}"
 }
 
+auto_yesno() {
+    HEIGHT=$((LINES / 2))
+    WIDTH=$((COLUMNS / 2))
+
+    dialog --colors --stdout \
+        --title "$1" \
+        --yesno "${@:3}" \
+        $HEIGHT $WIDTH
+}
+
 determine_requirements() {
     if [ ! -d resources/local/vosk-models ]; then
         echo -E "\Z1\ZbRequirements NOT Met\nRequired Download: Vosk Models\Zn"

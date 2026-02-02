@@ -12,6 +12,7 @@ That is what I'm currently building this for.
 # Setup:
     Prerequisites:
         -Python 3.11 (Uses python3.11 to create virtual environment)
+        -CloudUtils (Used to auto-resize last partition after flashing SD card) (TODO: create no dependency version)
         -Linux (Built for linux, but down the line I'll make it work on Windows/Mac)
 
     Steps:
@@ -28,8 +29,8 @@ That is what I'm currently building this for.
     [ ] Normalize volume
         After not interacting with it for 30 min change volume to a default volume so it's not really loud or quiet on first interaction
 
-[ ] Threads
-    [ ] Speperate thread for weather/cache
+[-] Threads
+    [-] Speperate thread for weather/cache
     [ ] Thread for timers
     [ ] Thread for music
 
@@ -39,9 +40,9 @@ That is what I'm currently building this for.
         [x] Instruction sending
     [ ] Simplify script to minimum necessary (run.py)
     [x] Time of day
-    [-] Weather
+    [x] Weather
         [x] Weather API
-        [-] Cached weather
+        [x] Cached weather
     [ ] Spotify ("Full functionality of Spotify")
     [ ] YouTube ("Play a video", NOT big priority)
     [ ] Timer
@@ -74,13 +75,14 @@ That is what I'm currently building this for.
         [ ] Options
             [ ] Vosk
             [ ] Piper
+            [ ] Weather
             [ ] All other options
     [-] Downloads
         [x] Vosk Models
         [x] Piper Voices
         [ ] Custom Images (Wallpapers, icons, etc.)
     [x] Python Environment
-    [ ] Prefered Voices
+    [ ] Prefered Voices (Libritts has 904 voices so being able to find voices you like is important)
         [ ] Bash script to determine which voices are preferred
             [ ] Play each voice and have user input (yes/no/pass)
             [ ] Be able to return to script later and modify

@@ -1,0 +1,3 @@
+device=AML-S905X-CC
+image=Default
+sdCard=/dev/mmcblk0

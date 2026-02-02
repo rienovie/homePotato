@@ -44,17 +44,28 @@ weatherCache: dict = {
 }
 
 
+def update_weather():
+    global location, weatherCache
+    fore = get_weather_sync(location)
+    weatherCache["location"] = fore.location
+    weatherCache["last_updated"] = datetime.datetime.now()
+    weatherCache["forecast"] = fc_json(fore).data
+    save.save_weather_cache()
+
+
+def check_weather():
+    global location, weatherCache
+    if weatherCache["last_updated"] + datetime.timedelta(hours=1) < datetime.datetime.now():
+        update_weather()
+
+
 def load_weather():
     global location, weatherCache
     print("Loading weather cache")
 
     if not os.path.exists(f"{save.saveLocation}/weather_cache.json"):
         print("No weather cache found creating one")
-        fore = get_weather_sync(location)
-        weatherCache["location"] = fore.location
-        weatherCache["last_updated"] = datetime.datetime.now()
-        weatherCache["forecast"] = fc_json(fore).data
-        save.save_weather_cache()
+        update_weather()
 
     save.load_weather_cache()
 
