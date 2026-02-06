@@ -34,24 +34,19 @@ flash_os() {
         slow_print "Downloading default OS image"
         if [ $(grep "device=" setup/flash_options | awk -F '=' '{print $2}') = "AML-S905X-CC" ]; then
             # NOTE: This is the default image for the lePotato board any changes would be here
-            wget -P resources/local/img/ https://distro.libre.computer/ci/ubuntu/22.04/ubuntu-22.04.3-preinstalled-base-arm64%2Baml-s905x-cc.img.xz
+            wget -P resources/local/img/ https://dl.armbian.com/lepotato/Noble_current_minimal
         else
             confirm_print "Please place downloaded disk image '.img.xz' file in resources/local/img directory before flashing"
             return 1
         fi
     fi
-    image=$(grep "image=" setup/flash_options | awk -F '=' '{print $2}')
-    if [ "$image" = "Default" ]; then
-        image="ubuntu-22.04.3-preinstalled-base-arm64+aml-s905x-cc.img.xz"
-    fi
+    image=$(find resources/local/img -type f -name "*.img.xz")
     slow_print "Flashing OS"
-    xz -dc "resources/local/img/$image" | sudo dd of="$sdCard" bs=1M status=progress
+    xz -dc "$image" | sudo dd of="$sdCard" bs=1M status=progress
     slow_print "OS flashed, copying git repo to $sdCard"
     mkdir -p tmp
-    # should be p2 because p1 is the boot partition
-    sudo growpart "$sdCard" 2
     # so we can mount the partition
-    sdCard+="p2"
+    sdCard+="p1"
     sudo mount "$sdCard" tmp
     sudo mkdir tmp/homePotato
     sudo rsync -av \

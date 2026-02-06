@@ -12,7 +12,6 @@ That is what I'm currently building this for.
 # Setup:
     Prerequisites:
         -Python 3.11 (Uses python3.11 to create virtual environment)
-        -CloudUtils (Used to auto-resize last partition after flashing SD card) (TODO: create no dependency version)
         -Linux (Built for linux, but down the line I'll make it work on Windows/Mac)
 
     Steps:

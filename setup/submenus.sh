@@ -87,23 +87,31 @@ submenu_download_post() {
 
         case $choice in
             "Update")
-                sudo apt update
+                sudo apt update || confirm_print "Failed to update"
+                confirm_print "Updated"
                 ;;
             "Upgrade")
-                sudo apt upgrade
+                sudo apt upgrade || confirm_print "Failed to upgrade"
+                confirm_print "Upgraded"
                 ;;
             "Prequisites")
+                # Required for python3.11-dev and python3.11-venv
+                # NOTE: if there is any other ppa's to add, add them here
+                sudo apt install software-properties-common || confirm_print "Failed to install software-properties-common" && continue
+                sudo add-apt-repository ppa:deadsnakes/ppa || confirm_print "Failed to add deadsnakes/ppa" && continue
+
                 # NOTE: still working on this, there will be more added later
                 sudo apt install \
+                    build-essential \
                     git \
-                    python3.11 \
                     libasound2-dev \
                     libpulse-dev \
                     python3-pip \
                     python3-pyaudio \
+                    python3.11-dev \
                     python3.11-venv \
-                    pulseaudio \
                     portaudio19-dev
+                confirm_print "Installed required packages"
                 ;;
             "Back" | "")
                 return 0

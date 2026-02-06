@@ -56,7 +56,7 @@ sm_f_cf_image() {
     while true; do
         curImage=$(grep "image=" setup/flash_options | awk -F '=' '{print $2}')
         choice=$(auto_menu "homePotato - Flash - Configure - Image" "Current Image: $curImage" \
-            "Default" "Ubuntu 22.04 LTS" \
+            "Default" "Armbian Minimal" \
             "Manual" "Populate setup with downloaded image file" \
             "Back" "Back to previous menu")
 
