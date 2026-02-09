@@ -11,7 +11,7 @@ mkdir -p resources/local/release
 
 source setup/common.sh
 
-if git status --porcelain; then
+if git status --porcelain | grep -q .; then
     slow_print "Git repo has uncommitted changes"
     slow_print "Please commit before creating a release"
     exit 1
