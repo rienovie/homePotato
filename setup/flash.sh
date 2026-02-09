@@ -51,6 +51,8 @@ flash_os() {
     sudo mkdir tmp/homePotato
     sudo rsync -av \
         --exclude resources/local/img \
+        --exclude .git \
+        --exclude .gitignore \
         --exclude tmp \
         --exclude .venv \
         --exclude __pycache__ \
