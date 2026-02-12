@@ -24,7 +24,7 @@ while true; do
     message=$(determine_requirements)
 
     choice=$(auto_menu "HomePotato - Main Setup" "$message" \
-        "Update" "Update homePotato from git repo" \
+        "Update" "Update homePotato" \
         "Flash OS" "Flash OS to microSD" \
         "Download" "Download voices, models, and other resources" \
         "Options" "Configure homePotato" \
@@ -32,18 +32,9 @@ while true; do
 
     case $choice in
         "Update")
-            curScriptHash=$(sha256sum "setup.sh" | awk '{print $1}')
-            slow_print "Updating homePotato from git repo..."
-            if ! git pull; then
-                slow_print "Git pull failed, unable to update homePotato"
-                continue
-            fi
-            newScriptHash=$(sha256sum "setup.sh" | awk '{print $1}')
-            if [ "$curScriptHash" != "$newScriptHash" ]; then
-                confirm_print "HomePotato updated and script has changed, restarting setup script..."
-                exec ./setup.sh
-            else
-                confirm_print "HomePotato updated."
+            if auto_yesno "homePotato Version ($(cat resources/local/version.txt))" --msg "This will call the update script that might overwrite any changes you have made to any files but will NOT touch your configuration files in resources/local (except the version.txt file). Are you sure you wish to continue?"; then
+                python setup/update.py
+                confirm_print "Update complete"
             fi
             ;;
         "Flash OS")
