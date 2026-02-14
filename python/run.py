@@ -14,6 +14,7 @@ import handle_instruction as handle
 import save
 import voice
 import weather
+import update as update
 
 from vosk import Model, KaldiRecognizer, json
 
@@ -37,7 +38,7 @@ def int_or_str(text):
 
 
 def long_tick_thread():
-    # This is a long tick thread that will run every x seconds
+    # This is a long tick thread that will run every x minutes
     # TODO: the goal would be to have the value here be modifable by the user
     tickLength = 30
     print("Starting long tick thread")
@@ -46,7 +47,7 @@ def long_tick_thread():
     while not end_threads:
         weather.check_weather()
         # default to 30 minutes
-        time.sleep(tickLength)
+        time.sleep(tickLength * 60)
 
 
 def callback(indata, frames, time, status):
@@ -183,10 +184,28 @@ try:
 except KeyboardInterrupt:
     voice.speak("Goodbye")
 
+    with open("resources/local/exit", "w") as f:
+        f.write("exit")
+
     end_threads = True
     print("Waiting for threads to end")
     for t in current_threads:
-        t.join()
+        t.join(timeout=1)
+
+    print("\nDone")
+
+    parser.exit(0)
+
+except update.updateException:
+    voice.speak("Update is available, exiting to update")
+
+    with open("resources/local/exit", "w") as f:
+        f.write("update")
+
+    end_threads = True
+    print("Waiting for threads to end")
+    for t in current_threads:
+        t.join(timeout=1)
 
     print("\nDone")
 
@@ -195,10 +214,12 @@ except KeyboardInterrupt:
 except Exception as e:
     voice.speak("Oops, I have crashed")
 
+    with open("resources/local/exit", "w") as f:
+        f.write("exit")
     end_threads = True
     print("Waiting for threads to end")
     for t in current_threads:
-        t.join()
+        t.join(timeout=1)
 
     error(e)
 

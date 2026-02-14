@@ -5,6 +5,11 @@ if [ "$BASH_SOURCE" = "$0" ]; then
 	exit 1
 fi
 
+if [ ! -d "resources" ]; then
+	echo "This script must be run from homePotato root directory"
+	exit 1
+fi
+
 if [ -d ".venv" ]; then
 	source .venv/bin/activate
 	echo "Virtual environment activated"

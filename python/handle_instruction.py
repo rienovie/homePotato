@@ -3,6 +3,7 @@ import datetime
 from numpy import random
 import voice
 import save
+import update as update
 
 import weather
 
@@ -11,8 +12,6 @@ Working = False
 
 # NOTE: put your city here
 City = "Philadelphia"
-
-# TODO: for the weather, I think the best way would have it auto-fetch it every hour or so and then just use the latest
 
 
 def handle_instruction(instruction):
@@ -26,6 +25,13 @@ def handle_instruction(instruction):
     # TODO: this does not feel very efficient but should work for now
     if instruction.__contains__("cancel" or "stop"):
         print("Cancelling")
+
+    elif instruction.__contains__("system update"):
+        voice.speak("Checking for updates")
+        if update.check_for_updates():
+            raise update.updateException
+        else:
+            voice.speak("The system is currently up to date")
 
     elif instruction.__contains__("random voice"):
         voice.speak("Setting voice to a random value")
@@ -41,7 +47,6 @@ def handle_instruction(instruction):
 
         w = weather.get_weather_cache(City)["forecast"]
 
-        # BUG: fix this
         response = (
             f"In {City} it is currently {w['description']} at {w['temperature']} degrees. "
             f"Today will have a high of {w['daily_forecasts'][0]['highest_temperature']} "

@@ -1,3 +1,7 @@
 Local directory is for files that will be handled by the end user
 
+DO NOT EDIT THESE FILES IN THE LOCAL DIRECTORY:
+	exit - file used to handle exit instructions (system update or others down the line)
+	version - file used to store the current version of the system
+
 Public directory are files that will be included with the git repo
