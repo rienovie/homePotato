@@ -17,10 +17,8 @@ That is what I'm currently building this for.
     Steps:
         -Prerequisites
         -Clone this repo
-        -Run "source activate_env.sh" (This will create a virtual environment, activate it, and install all the dependencies)
-            -This should be run every session prior to running run.py as this will activate the virtual environment
-        -Use the "setup.sh" script to download models, voices, and set options etc.
-        -Run "run.py" to start program
+        -Use "setup.sh" script to download models, voices, and set options etc.
+        -Run "run.sh" to start program
 
 # Current TODO List:
 
