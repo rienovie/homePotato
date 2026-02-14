@@ -22,66 +22,67 @@ That is what I'm currently building this for.
 
 # Current TODO List:
 
-[ ] Features
-    [ ] Normalize volume
-        After not interacting with it for 30 min change volume to a default volume so it's not really loud or quiet on first interaction
+- [ ] Features
+    - [ ] Normalize volume
+        -After not interacting with it for 30 min change volume to a default volume so it's not really loud or quiet on first interaction
 
-[-] Threads
-    [-] Speperate thread for weather/cache
-    [ ] Thread for timers
-    [ ] Thread for music
+- [-] Threads
+    - [X] Speperate thread for weather/cache
+    - [ ] Thread for timers
+    - [ ] Thread for music
 
-[-] Voice interaction
-    [x] Basic voice interaction
-        [x] Keyword detection
-        [x] Instruction sending
-    [ ] Simplify script to minimum necessary (run.py)
-    [x] Time of day
-    [x] Weather
-        [x] Weather API
-        [x] Cached weather
-    [ ] Spotify ("Full functionality of Spotify")
-    [ ] YouTube ("Play a video", NOT big priority)
-    [ ] Timer
-    [ ] Alarm
-    [ ] Search (General Questions)
-    [ ] Configuration (Volume, Brightness, Voice, etc.)
-    [ ] Voice Options (Volume, Speed, Speaker_ID, etc.)
-        [ ] Prefered Voices Script (interact with the prefered voices list from voice alone)
-[ ] Screen
-    [ ] Widget System (Currently thinking something like quickshell or maybe a godot application)
-        [ ] Clock
-        [ ] Weather
-        [ ] Spotify
-        [ ] YouTube
-        [ ] Timer
-        [ ] Alarm
-        [ ] Search
-        [ ] Configuration
-    [ ] I'm sure something else but can't think of it right now
-[-] Scripts
-    [ ] Start from zero
-        [ ] Flash os to microSD (ideally a minimal OS)
-        [ ] Install Software
-        [ ] Auto-start homePotato
-        [ ] From git clone able to get FULL functioning of homePotato
-    [-] Setup Script
-        [x] Update from git
-        [x] Downloads for resources
-        [ ] Full auto-setup option intead of each section manually
-        [ ] Options
-            [ ] Vosk
-            [ ] Piper
-            [ ] Weather
-            [ ] All other options
-    [-] Downloads
-        [x] Vosk Models
-        [x] Piper Voices
-        [ ] Custom Images (Wallpapers, icons, etc.)
-    [x] Python Environment
-    [ ] Prefered Voices (Libritts has 904 voices so being able to find voices you like is important)
-        [ ] Bash script to determine which voices are preferred
-            [ ] Play each voice and have user input (yes/no/pass)
-            [ ] Be able to return to script later and modify
-            [ ] Be able to have multiple lists
-            [ ] Random voice option will pick a number from the prefered list if it exists
+- [-] Voice interaction
+    - [x] Basic voice interaction
+        - [x] Keyword detection
+        - [x] Instruction sending
+    - [ ] Simplify script to minimum necessary (run.py)
+    - [x] Time of day
+    - [x] Weather
+        - [x] Weather API
+        - [x] Cached weather
+    - [ ] Spotify ("Full functionality of Spotify")
+    - [ ] YouTube ("Play a video", NOT big priority)
+    - [ ] Timer
+    - [ ] Alarm
+    - [ ] Search (General Questions)
+    - [ ] Configuration (Volume, Brightness, Voice, etc.)
+    - [ ] Voice Options (Volume, Speed, Speaker_ID, etc.)
+        - [ ] Prefered Voices Script (interact with the prefered voices list from voice alone)
+    - [x] Update homePotato
+- [ ] Screen
+    - [ ] Widget System (Currently thinking something like quickshell or maybe a godot application)
+        - [ ] Clock
+        - [ ] Weather
+        - [ ] Spotify
+        - [ ] YouTube
+        - [ ] Timer
+        - [ ] Alarm
+        - [ ] Search
+        - [ ] Configuration
+    - [ ] I'm sure something else but can't think of it right now
+- [-] Scripts
+    - [ ] Start from zero
+        - [ ] Flash os to microSD (ideally a minimal OS)
+        - [ ] Install Software
+        - [ ] Auto-start homePotato
+        - [ ] From git clone able to get FULL functioning of homePotato
+    - [-] Setup Script
+        - [x] Update homePotato
+        - [x] Downloads for resources
+        - [ ] Full auto-setup option intead of each section manually
+        - [ ] Options
+            - [ ] Vosk
+            - [ ] Piper
+            - [ ] Weather
+            - [ ] All other options
+    - [-] Downloads
+        - [x] Vosk Models
+        - [x] Piper Voices
+        - [ ] Custom Images (Wallpapers, icons, etc.)
+    - [x] Python Environment
+    - [ ] Prefered Voices (Libritts has 904 voices so being able to find voices you like is important)
+        - [ ] Bash script to determine which voices are preferred
+            - [ ] Play each voice and have user input (yes/no/pass)
+            - [ ] Be able to return to script later and modify
+            - [ ] Be able to have multiple lists
+            - [ ] Random voice option will pick a number from the prefered list if it exists
