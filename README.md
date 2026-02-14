@@ -26,12 +26,12 @@ That is what I'm currently building this for.
     - [ ] Normalize volume
         -After not interacting with it for 30 min change volume to a default volume so it's not really loud or quiet on first interaction
 
-- [-] Threads
+- [ ] Threads
     - [X] Speperate thread for weather/cache
     - [ ] Thread for timers
     - [ ] Thread for music
 
-- [-] Voice interaction
+- [ ] Voice interaction
     - [x] Basic voice interaction
         - [x] Keyword detection
         - [x] Instruction sending
@@ -60,13 +60,13 @@ That is what I'm currently building this for.
         - [ ] Search
         - [ ] Configuration
     - [ ] I'm sure something else but can't think of it right now
-- [-] Scripts
+- [ ] Scripts
     - [ ] Start from zero
         - [ ] Flash os to microSD (ideally a minimal OS)
         - [ ] Install Software
         - [ ] Auto-start homePotato
         - [ ] From git clone able to get FULL functioning of homePotato
-    - [-] Setup Script
+    - [ ] Setup Script
         - [x] Update homePotato
         - [x] Downloads for resources
         - [ ] Full auto-setup option intead of each section manually
@@ -75,7 +75,7 @@ That is what I'm currently building this for.
             - [ ] Piper
             - [ ] Weather
             - [ ] All other options
-    - [-] Downloads
+    - [ ] Downloads
         - [x] Vosk Models
         - [x] Piper Voices
         - [ ] Custom Images (Wallpapers, icons, etc.)
