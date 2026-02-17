@@ -33,7 +33,7 @@ while true; do
     case $choice in
         "Update")
             if auto_yesno "homePotato Version ($(cat resources/local/version.txt))" --msg "This will call the update script that might overwrite any changes you have made to any files but will NOT touch your configuration files in resources/local (except the version.txt file). Are you sure you wish to continue?"; then
-                python setup/update.py
+                python3 python/update.py
                 confirm_print "Update complete"
             fi
             ;;
