@@ -1,9 +1,8 @@
+import asyncio
+import datetime
+import os
 
 import python_weather
-import asyncio
-import os
-import datetime
-
 import save
 
 global location, weatherCache
@@ -17,22 +16,20 @@ class fc_json:
         self.data["feels_like"] = forCas.feels_like
         self.data["daily_forecasts"] = []
         for d in forCas.daily_forecasts:
-            self.data["daily_forecasts"].append({
-                "date": datetime.datetime.strftime(d.date, "%Y.%m.%d"),
-                "highest_temperature": d.highest_temperature,
-                "lowest_temperature": d.lowest_temperature
-            })
+            self.data["daily_forecasts"].append(
+                {
+                    "date": datetime.datetime.strftime(d.date, "%Y.%m.%d"),
+                    "highest_temperature": d.highest_temperature,
+                    "lowest_temperature": d.lowest_temperature,
+                }
+            )
 
     data = {
         "description": str,
         "temperature": int,
         "feels_like": int,
         "daily_forecasts": [
-            {
-                "date": str,
-                "highest_temperature": int,
-                "lowest_temperature": int
-            }
+            {"date": str, "highest_temperature": int, "lowest_temperature": int}
         ],
     }
 
@@ -40,7 +37,7 @@ class fc_json:
 weatherCache: dict = {
     "location": str,
     "last_updated": datetime.datetime,
-    "forecast": fc_json.data
+    "forecast": fc_json.data,
 }
 
 
@@ -55,7 +52,10 @@ def update_weather():
 
 def check_weather():
     global location, weatherCache
-    if weatherCache["last_updated"] + datetime.timedelta(hours=1) < datetime.datetime.now():
+    if (
+        weatherCache["last_updated"] + datetime.timedelta(hours=1)
+        < datetime.datetime.now()
+    ):
         update_weather()
 
 

@@ -16,16 +16,17 @@ fi
 # While loop wraps the application so updates and crashes restart the application
 while true; do
 	value=$(cat resources/local/exit)
-	
+
     if [ $value == "update"  ]; then
 		echo "Update called"
 		python python/update.py
+		pip install -r requirements.txt
 		echo "null" > resources/local/exit
 	elif [ $value == "exit"  ]; then
 		echo "Exit called"
 		echo "null" > resources/local/exit
 		exit 0
-	elif [ $value == "null"  ]; then
+	else
 		echo "exit value is $(cat resources/local/exit)"
 		echo "null" > resources/local/exit
 	fi

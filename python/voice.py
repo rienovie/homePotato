@@ -1,4 +1,3 @@
-
 import pyaudio
 from piper import PiperVoice, SynthesisConfig
 
@@ -25,7 +24,7 @@ def speak(text):
         format=p.get_format_from_width(first_chunk.sample_width),
         channels=first_chunk.sample_channels,
         rate=first_chunk.sample_rate,
-        output=True
+        output=True,
     )
 
     # Play first chunk

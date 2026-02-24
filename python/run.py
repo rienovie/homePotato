@@ -1,22 +1,21 @@
 #!/usr/bin/env python3
 
 import argparse
-from logging import error
 import os
 import queue
 import sys
-import time
-import sounddevice as sd
-import simpleaudio as sa
 import threading
+import time
+from logging import error
 
 import handle_instruction as handle
 import save
+import simpleaudio as sa
+import sounddevice as sd
+import update as update
 import voice
 import weather
-import update as update
-
-from vosk import Model, KaldiRecognizer, json
+from vosk import KaldiRecognizer, Model, json
 
 q = queue.Queue()
 keyword = "potato"
@@ -71,7 +70,7 @@ def loadUserOptions():
             noise_scale=0.667,
             noise_w_scale=0.8,
             normalize_audio=True,
-            volume=1.0
+            volume=1.0,
         )
         save.save_voice_options()
     else:
@@ -86,8 +85,11 @@ def loadUserOptions():
 
 parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument(
-    "-l", "--list-devices", action="store_true",
-    help="show list of audio devices and exit")
+    "-l",
+    "--list-devices",
+    action="store_true",
+    help="show list of audio devices and exit",
+)
 args, remaining = parser.parse_known_args()
 if args.list_devices:
     print(sd.query_devices())
@@ -95,17 +97,25 @@ if args.list_devices:
 parser = argparse.ArgumentParser(
     description=__doc__,
     formatter_class=argparse.RawDescriptionHelpFormatter,
-    parents=[parser])
+    parents=[parser],
+)
 parser.add_argument(
-    "-f", "--filename", type=str, metavar="FILENAME",
-    help="audio file to store recording to")
+    "-f",
+    "--filename",
+    type=str,
+    metavar="FILENAME",
+    help="audio file to store recording to",
+)
 parser.add_argument(
-    "-d", "--device", type=int_or_str,
-    help="input device (numeric ID or substring)")
+    "-d", "--device", type=int_or_str, help="input device (numeric ID or substring)"
+)
+parser.add_argument("-r", "--samplerate", type=int, help="sampling rate")
 parser.add_argument(
-    "-r", "--samplerate", type=int, help="sampling rate")
-parser.add_argument(
-    "-m", "--model", type=str, help="language model; e.g. en-us, fr, nl; default is en-us")
+    "-m",
+    "--model",
+    type=str,
+    help="language model; e.g. en-us, fr, nl; default is en-us",
+)
 args = parser.parse_args(remaining)
 
 try:
@@ -118,8 +128,7 @@ try:
 
     if args.model is None:
         # NOTE: put your model here
-        model = Model(
-            "resources/local/vosk-models/vosk-model-small-en-us-0.15")
+        model = Model("resources/local/vosk-models/vosk-model-small-en-us-0.15")
     else:
         model = Model(lang=args.model)
 
@@ -129,12 +138,12 @@ try:
         dump_fn = None
 
     with sd.RawInputStream(
-            samplerate=args.samplerate,
-            blocksize=8000,
-            device=args.device,
-            dtype="int16",
-            channels=1,
-            callback=callback
+        samplerate=args.samplerate,
+        blocksize=8000,
+        device=args.device,
+        dtype="int16",
+        channels=1,
+        callback=callback,
     ):
         print("#" * 80)
         print("Press Ctrl+C to stop the recording")
@@ -169,7 +178,6 @@ try:
             # NOTE: 20 is the length when no value is there, instead of running json.loads every check this works
             # the result is a string in json so that's why the formatting is weird
             elif rec.PartialResult().__len__() > 20:
-
                 # NOTE: Partial result is not cleared until complete result is received
                 parRes = json.loads(rec.PartialResult()).get("partial", "")
 

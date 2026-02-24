@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 import os
-import xml.etree.ElementTree as ET
 import urllib.request
+import xml.etree.ElementTree as ET
 
 
 # class is defined so it can be handled in the main try block
@@ -10,24 +10,12 @@ class updateException(Exception):
     pass
 
 
-def check_for_updates() -> bool:
-    print("Setup check for updates")
-
-    return False
-
-
-if __name__ == "__main__":
-    if not os.path.exists("resources"):
-        print("Resources directory not found")
-        print("Script must be run from homePotato root directory")
-        if input("If you wish to run the script anyway, please type 'yes' and hit enter: ") != "yes":
-            exit(0)
-
-    if not os.path.exists("tmp"):
-        os.mkdir("tmp")
-    else:
+# returns if update, current version, latest version
+def check_for_updates() -> tuple[bool, str, str]:
+    if os.path.exists("tmp"):
         os.system("rm -rf tmp")
-        os.mkdir("tmp")
+
+    os.mkdir("tmp")
 
     if not os.path.exists("resources/local/version"):
         with open("resources/local/version", "w") as f:
@@ -35,8 +23,6 @@ if __name__ == "__main__":
 
     with open("resources/local/version", "r") as f:
         curVersion = f.read().strip()
-
-    print("Current Version: " + curVersion)
 
     xml_url = "https://github.com/rienovie/homePotato/releases.atom"
 
@@ -57,23 +43,44 @@ if __name__ == "__main__":
 
     versions.sort(reverse=True)
 
-    if versions[0] <= curVersion:
-        print("System is up to date")
+    return versions[0] > curVersion, curVersion, versions[0]
+
+
+if __name__ == "__main__":
+    if not os.path.exists("resources"):
+        print("Resources directory not found")
+        print("Script must be run from homePotato root directory")
+        if (
+            input(
+                "If you wish to run the script anyway, please type 'yes' and hit enter: "
+            )
+            != "yes"
+        ):
+            exit(0)
+
+    update = check_for_updates()
+
+    if not update[0]:
+        print("No updates available")
         exit(0)
 
     print("Update available!")
-    print("Current Version: " + curVersion + " -> New Version: " + versions[0])
+    print("Current Version: " + update[1] + " -> New Version: " + update[2])
 
-    download_url = "https://github.com/rienovie/homePotato/archive/refs/tags/v" + versions[0] + ".zip"
+    download_url = (
+        "https://github.com/rienovie/homePotato/archive/refs/tags/v"
+        + update[2]
+        + ".zip"
+    )
 
     urllib.request.urlretrieve(download_url, "tmp/update.zip")
     os.system("unzip tmp/update.zip -d tmp")
     os.remove("tmp/update.zip")
-    os.system(f"cp -rf tmp/homePotato-{versions[0]}/* .")
+    os.system(f"cp -rf tmp/homePotato-{update[2]}/* .")
     os.system("rm -rf tmp")
 
     with open("resources/local/version", "w") as f:
-        f.write(versions[0])
+        f.write(update[2])
 
     print("System update complete")
 

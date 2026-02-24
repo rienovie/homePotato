@@ -1,12 +1,11 @@
-
 import datetime
-from numpy import random
-import voice
+
 import save
 import update as update
-from word2number import w2n
-
+import voice
 import weather
+from numpy import random
+from word2number import w2n
 
 global Working, City
 Working = False
@@ -27,11 +26,13 @@ def handle_instruction(instruction):
     if instruction.__contains__("cancel" or "stop"):
         print("Cancelling")
         if instruction.__contains__("timer"):
-            voice.speak("Timer is not implemented yet, but would be cancelled if it was")
+            voice.speak(
+                "Timer is not implemented yet, but would be cancelled if it was"
+            )
 
     elif instruction.__contains__("system update"):
         voice.speak("Checking for updates")
-        if update.check_for_updates():
+        if update.check_for_updates()[0]:
             raise update.updateException
         else:
             voice.speak("The system is currently up to date")
@@ -54,9 +55,22 @@ def handle_instruction(instruction):
 
         w = weather.get_weather_cache(City)["forecast"]
 
-        voice.speak("In " + City + " it is currently " + w["description"] + " at " + w["temperature"].__str__() + " degrees")
-        voice.speak("Today will have a high of " + w["daily_forecasts"][0]["highest_temperature"].__str__())
-        voice.speak("and a low of " + w["daily_forecasts"][0]["lowest_temperature"].__str__())
+        voice.speak(
+            "In "
+            + City
+            + " it is currently "
+            + w["description"]
+            + " at "
+            + w["temperature"].__str__()
+            + " degrees"
+        )
+        voice.speak(
+            "Today will have a high of "
+            + w["daily_forecasts"][0]["highest_temperature"].__str__()
+        )
+        voice.speak(
+            "and a low of " + w["daily_forecasts"][0]["lowest_temperature"].__str__()
+        )
 
     elif instruction.__contains__("rain"):
         voice.speak("Rain has not been implemented yet")
@@ -68,10 +82,15 @@ def handle_instruction(instruction):
         voice.speak("Playing has not been implemented yet")
 
     elif instruction.__contains__("time"):
-        voice.speak("It is currently " + datetime.datetime.now().strftime("%-I %M %p, on %A %B %-d, %Y"))
+        voice.speak(
+            "It is currently "
+            + datetime.datetime.now().strftime("%-I %M %p, on %A %B %-d, %Y")
+        )
 
     else:
-        voice.speak("I'm not sure what the instruction quote" + instruction + "end quote means")
+        voice.speak(
+            "I'm not sure what the instruction quote" + instruction + "end quote means"
+        )
         print("Unknown instruction:", instruction)
 
     Working = False
@@ -92,9 +111,22 @@ def set_option(instruction):
 
         w = weather.get_weather_cache(City)["forecast"]
 
-        voice.speak("In " + City + " it is currently " + w["description"] + " at " + w["temperature"].__str__() + " degrees")
-        voice.speak("Today will have a high of " + w["daily_forecasts"][0]["highest_temperature"].__str__())
-        voice.speak("and a low of " + w["daily_forecasts"][0]["lowest_temperature"].__str__())
+        voice.speak(
+            "In "
+            + City
+            + " it is currently "
+            + w["description"]
+            + " at "
+            + w["temperature"].__str__()
+            + " degrees"
+        )
+        voice.speak(
+            "Today will have a high of "
+            + w["daily_forecasts"][0]["highest_temperature"].__str__()
+        )
+        voice.speak(
+            "and a low of " + w["daily_forecasts"][0]["lowest_temperature"].__str__()
+        )
 
     elif instruction.__contains__("voice"):
         value = instruction.split("voice")[-1]
@@ -107,17 +139,21 @@ def set_option(instruction):
 
         # NOTE: for libritts, there are 904 values for speaker_id
         if value > 903 or value < 0:
-            voice.speak("Voice ID must be between 0 and 903. You said '" + value.__str__() + "'")
+            voice.speak(
+                "Voice ID must be between 0 and 903. You said '" + value.__str__() + "'"
+            )
             return
         voice.speak("Setting voice to '" + value.__str__() + "'")
-        voice.set_config_values(
-            speaker_id=int(value)
-        )
+        voice.set_config_values(speaker_id=int(value))
         save.save_voice_options()
         voice.speak("This will be my new voice with id " + str(voice.config.speaker_id))
 
     elif instruction.__contains__("timer"):
         value = instruction.split("timer")[-1]
-        voice.speak("Timer has not been implemented yet, but would be set to '" + value + "' if it was")
+        voice.speak(
+            "Timer has not been implemented yet, but would be set to '"
+            + value
+            + "' if it was"
+        )
     else:
         voice.speak("I was unable to set an option. What I heard was: " + instruction)

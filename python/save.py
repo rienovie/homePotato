@@ -1,9 +1,8 @@
-
 # for saving/loading options to a file
 
+import datetime
 import json
 import os
-import datetime
 
 import voice
 import weather
@@ -39,8 +38,10 @@ def save_weather_cache():
     with open(f"{saveLocation}/weather_cache.json", "w") as f:
         jObj = {
             "location": weather.weatherCache["location"],
-            "last_updated": weather.weatherCache["last_updated"].strftime("%Y.%m.%d.%H.%M.%S"),
-            "forecast": weather.weatherCache["forecast"]
+            "last_updated": weather.weatherCache["last_updated"].strftime(
+                "%Y.%m.%d.%H.%M.%S"
+            ),
+            "forecast": weather.weatherCache["forecast"],
         }
         json.dump(jObj, f)
     print("Saved weather cache")
@@ -56,7 +57,9 @@ def apply_weather_cache(options):
     for k, v in options.items():
         if k in weather.weatherCache:
             if k == "last_updated":
-                weather.weatherCache[k] = datetime.datetime.strptime(v, "%Y.%m.%d.%H.%M.%S")
+                weather.weatherCache[k] = datetime.datetime.strptime(
+                    v, "%Y.%m.%d.%H.%M.%S"
+                )
             else:
                 weather.weatherCache[k] = v
         else:
